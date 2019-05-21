@@ -1,0 +1,23 @@
+extends ../../layout.pug
+block content
+    section.hero.is-fullheight.is-primary.is-bold
+        .hero-body
+            .container
+                center
+                    p.title.is-1(style='color:black') Login
+                form(action="/home" method="POST")
+                    .field
+                        label.label Wallet ID
+                            p.control.has-icons-left.has-icons-right
+                                input.input(type='id' placeholder='Wallet ID' name='id')
+                                span.icon.is-small.is-left
+                                    i.fas.fa-envelope
+                                span.icon.is-small.is-right
+                                    i.fas.fa-check
+                    .field
+                        label.label Password
+                            p.control.has-icons-left
+                                input.input(type='password' placeholder='Password' name='password')
+                                span.icon.is-small.is-left
+                                    i.fas.fa-lock
+                    input.button.is-warning(type="submit")
