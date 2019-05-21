@@ -1,37 +1,36 @@
 extends ../layout.pug
 
 block content
-    section.hero.is-medium.is-primary.is-bold
+    section.hero.is-medium.is-light.is-bold
         .hero-body
             .container
                 .tile.is-ancestor
                     .tile.is-7.is-vertical.is-parent
-                        .tile.is-child.notification.is-warning
-                            p.title Wallet ID
-                            code.tooltip(id='walletid') #{wallet.id}
+                        .tile.is-child.notification.is-primary
+                            p.title.is-2.has-text-dark Wallet ID
+                            code.tooltip.has-text-black(id='walletid') #{wallet.id}
                                 span.tooltiptext #{wallet.id}
-                        .tile.is-child.notification.is-danger
-                            p.title Address
-                            code.tooltip(id='address') #{wallet.addresses}
+                        .tile.is-child.notification.is-primary
+                            p.title.is-2.has-text-dark Address
+                            code.tooltip.has-text-black(id='address') #{wallet.addresses}
                                 span.tooltiptext #{wallet.addresses}
                     .tile.is-parent
-                        .tile.is-child.notification.is-success
-                            .level
-                                .tile.is-ancestor
-                                    .tile.is-20.is-vertical.is-parent
-                                        .tile.is-child.box
-                                            .column.has-text-centered
-                                                p.title(style='color:grey') Account Balance
-                                        .tile.is-child.box
-                                            .column.has-text-centered
-                                                p.title(style='color:grey') #{balance}
+                        .tile.is-child.notification.is-primary.has-text-centered
+                            .tile.is-ancestor
+                                .tile.is-20.is-vertical.is-parent
+                                    .tile.is-child.notification.is-primary
+                                        .column.has-text-centered
+                                            p.title.is-2.has-text-dark Account Balance
+                                    .tile.is-child.notification.is-grey
+                                        .column.has-text-centered
+                                            h1.title.is-1.has-text-danger #{balance}
     section.hero.is-light.is-bold
         .hero-body
             .container
                 .tile.is-parent
-                    article.tile.is-child.notification.is-success
+                    article.tile.is-child.notification.is-primary
                         .content
-                            p.title Transfers
+                            p.title.has-text-dark Transfers
                             .content
                                 form(method='POST' action='/submit-transaction')
                                     .field
@@ -45,19 +44,19 @@ block content
                                     .field
                                         label.label Password
                                         .control
-                                            input.input.is-success(name='pass' type='text' placeholder='eg nam 1 2 3 4')
+                                            input.input(name='pass' type='password' placeholder='eg nam 1 2 3 4')
                                     .field
                                         label.label Amount
                                         .control
-                                            input.input.is-success(name='amount' type='text' placeholder='eg 50000000')
-                                    input.button.is-info(type="submit")
-    section.hero.is-primary
+                                            input.input(name='amount' type='text' placeholder='eg 50000000')
+                                    input.button.is-warning(type="submit")
+    section.hero.is-light
         .hero-body
             .container
                 .tile.is-parent
                     article.tile.is-child.notification.is-danger
-                        p.title Transaction Sent
-                        p.subtitle List of transactions
+                        p.title.has-text-white Transaction Sent
+                        p.subtitle.has-text-white List of transactions
                         .content
                             table.table
                                 thead
@@ -116,13 +115,13 @@ block content
                                         //-                                 span.tooltiptext #{output.address}                                                    
                                         //-                             | Amount
                                         //-                             code #{formatters.amount(output.amount)}
-    section.hero.is-primary
+    section.hero.is-light
         .hero-body
             .container
                 .tile.is-parent
                     article.tile.is-child.notification.is-danger
-                        p.title Transaction received
-                        p.subtitle List of transactions
+                        p.title.has-text-white Transaction received
+                        p.subtitle.has-text-white List of transactions
                         .content
                             table.table
                                 thead
@@ -150,7 +149,7 @@ block content
                                             td 
                                                 span.tooltip #{formatters.hash(transaction.address)}
                                                     span.tooltiptext #{transaction.address}
-    section.hero.is-primary
+    section.hero.is-light
         .hero-body
             .container
                 .tile.is-parent
@@ -160,8 +159,8 @@ block content
                                 .level-item 
                                     .level-right
                                         .content
-                                            p.title Smart Contract
-                                            p.subtitle Select Candidate
+                                            p.title.has-text-white Smart Contract
+                                            p.subtitle.has-text-white Select Candidate
                                 .level-item
                                     .level-left
                                         .select
