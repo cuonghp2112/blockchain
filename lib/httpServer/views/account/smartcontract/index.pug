@@ -1,0 +1,86 @@
+doctype html
+html(lang="en").has-navbar-fixed-top
+    head
+        title Naivecoin - #{pageTitle}
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css")        
+        script(src="https://use.fontawesome.com/releases/v5.0.0/js/all.js", defer)        
+        style(type='text/css').
+            /* Tooltip container */
+            .tooltip {
+                position: relative;                                
+            }
+
+            /* Tooltip text */
+            .tooltip .tooltiptext {
+                visibility: hidden;                
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                top: -5px;
+                left: 105%;   
+                word-break: normal;
+            
+                /* Position the tooltip text - see examples below! */
+                position: absolute;
+                z-index: 1;
+            }
+
+            /* Show the tooltip text when you mouse over the tooltip container */
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+    body
+        block content
+            nav.navbar.is-fixed-top.is-dark
+                .container
+                    .navbar-menu.is-active
+                        .navbar-brand
+                            a.navbar-item.title.is-2.has-text-white(href="/home", class=`${pageTitle=='Home' ? 'is-active' : ''}`) TTCDcoin
+                        .navbar-end
+                            //- a.navbar-item #{wallet.name}
+                            a.navbar-item(href="/wallet/login", class=`${pageTitle=='Login'? 'is-active':''}`) Logout
+            
+            section.section.hero.is-primary
+                .container
+                    h1.title.is-1 Contract State
+                    hr
+                    .columns.is-multiline
+                        each candidate in candidates                   
+                            .column.is-one-quarter
+                                .box
+                                    .content.is-small.has-text-centered
+                                        p.title.is-2.has-text-black
+                                            | #{candidate.name}
+                                        p.subtitle.is-3.has-text-black
+                                            | #{candidate.vote}
+        
+            section.hero.is-light
+                .hero-body
+                    .container
+                        .tile.is-parent
+                            article.tile.is-child.notification.is-success
+                                .content
+                                    .level
+                                        .level-item 
+                                            .level-right
+                                                .content
+                                                    p.title.has-text-white Smart Contract
+                                                    p.subtitle.has-text-white Select Candidate
+                                        .level-item
+                                            .level-left
+                                                form(action="/wallet/contract" method="POST")
+                                                    .field
+                                                        input.input(type='id' placeholder='Wallet ID' name='id')
+                                                    .field
+                                                        input.input(type='password' placeholder='Password' name='pass')
+                                                    .field
+                                                        .select
+                                                            select(type='candidate' name='candidate')
+                                                                option Dung
+                                                                option Tuan
+                                                                option Cuong
+                                                                option Thanh
+                                                        input.button.is-danger(type="submit" value='Vote')                            
