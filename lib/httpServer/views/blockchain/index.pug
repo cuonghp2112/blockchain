@@ -12,6 +12,18 @@ block content
                         span.tag.is-primary Regular
                         span.tag.is-warning Fee
                         span.tag.is-danger Reward
+        .container
+            .tile.is-parent
+                    article.tile.is-child.notification.is-primary
+                        .content
+                            p.title.has-text-dark Miner
+                            .content
+                                form(method='POST' action='/blockchain')
+                                    .field
+                                        label.label Wallet ID to send reward
+                                        .control
+                                            input.input(name='walletid' type='text' placeholder='eg b826513cb97313e244921d277b470f5060a10d17bbf6dd37fca9341bd511a348')
+                                    input.button.is-warning(type="submit" value="Mine")
             hr
             .columns.is-multiline
                 each block in blocks                    

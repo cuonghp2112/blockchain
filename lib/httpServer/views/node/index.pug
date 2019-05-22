@@ -1,0 +1,22 @@
+extends ../layout.pug
+
+block content
+    section.hero.is-light
+                .hero-body
+                    .container
+                        .tile.is-parent
+                            article.tile.is-child.notification.is-danger
+                                p.title.has-text-white Peers
+                                p.subtitle.has-text-white Total peers : #{totalPeers}
+                                .content
+                                    table.table
+                                        thead
+                                            tr
+                                                th URL
+                                        tfoot
+                                            tr
+                                                th URL
+                                        tbody
+                                            each node in nodes                  
+                                                tr(onClick=`toggle_visibility( '${node.index}' )`, style="cursor: pointer")
+                                                    td #{node.url}
