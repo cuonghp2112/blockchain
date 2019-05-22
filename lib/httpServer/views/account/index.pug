@@ -1,173 +1,213 @@
-extends ../layout.pug
+doctype html
+html(lang="en").has-navbar-fixed-top
+    head
+        title Naivecoin - #{pageTitle}
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css")        
+        script(src="https://use.fontawesome.com/releases/v5.0.0/js/all.js", defer)        
+        style(type='text/css').
+            /* Tooltip container */
+            .tooltip {
+                position: relative;                                
+            }
 
-block content
-    section.hero.is-medium.is-primary.is-bold
-        .hero-body
+            /* Tooltip text */
+            .tooltip .tooltiptext {
+                visibility: hidden;                
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                top: -5px;
+                left: 105%;   
+                word-break: normal;
+            
+                /* Position the tooltip text - see examples below! */
+                position: absolute;
+                z-index: 1;
+            }
+
+            /* Show the tooltip text when you mouse over the tooltip container */
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+    body
+        nav.navbar.is-fixed-top.is-dark
             .container
-                .tile.is-ancestor
-                    .tile.is-7.is-vertical.is-parent
-                        .tile.is-child.notification.is-warning
-                            p.title Wallet ID
-                            code.tooltip(id='walletid') #{wallet.id}
-                                span.tooltiptext #{wallet.id}
-                        .tile.is-child.notification.is-danger
-                            p.title Address
-                            code.tooltip(id='address') #{wallet.addresses}
-                                span.tooltiptext #{wallet.addresses}
-                    .tile.is-parent
-                        .tile.is-child.notification.is-success
-                            .level
-                                .tile.is-ancestor
-                                    .tile.is-20.is-vertical.is-parent
-                                        .tile.is-child.box
-                                            .column.has-text-centered
-                                                p.title(style='color:grey') Account Balance
-                                        .tile.is-child.box
-                                            .column.has-text-centered
-                                                p.title(style='color:grey') #{balance}
-    section.hero.is-light.is-bold
-        .hero-body
-            .container
-                .tile.is-parent
-                    article.tile.is-child.notification.is-success
-                        .content
-                            p.title Transfers
-                            .content
-                                form(method='POST' action='/submit-transaction')
-                                    .field
-                                        label.label Wallet ID
-                                        .control
-                                            input.input(name='walletid' type='text' placeholder='eg b826513cb97313e244921d277b470f5060a10d17bbf6dd37fca9341bd511a348')
-                                    .field
-                                        label.label Receiving address
-                                        .control
-                                            input.input(name='toAddress' type='text' placeholder='eg b826513cb97313e244921d277b470f5060a10d17bbf6dd37fca9341bd511a348')
-                                    .field
-                                        label.label Password
-                                        .control
-                                            input.input.is-success(name='pass' type='text' placeholder='eg nam 1 2 3 4')
-                                    .field
-                                        label.label Amount
-                                        .control
-                                            input.input.is-success(name='amount' type='text' placeholder='eg 50000000')
-                                    input.button.is-info(type="submit")
-    section.hero.is-primary
-        .hero-body
-            .container
-                .tile.is-parent
-                    article.tile.is-child.notification.is-danger
-                        p.title Transaction Sent
-                        p.subtitle List of transactions
-                        .content
-                            table.table
-                                thead
-                                    tr
-                                        th Transaction ID
-                                        th Index
-                                        th Amount
-                                        th To Address
-                                tfoot
-                                    tr
-                                        th Transaction ID
-                                        th Index
-                                        th Amount
-                                        th To Address
-                                tbody
-                                    each transaction in outputTransactions                    
-                                        tr(onClick=`toggle_visibility( '${transaction.transaction}' )`, style="cursor: pointer")
-                                            th
-                                                span.tooltip #{formatters.hash(transaction.transaction)}
-                                                    span.tooltiptext #{transaction.transaction}
-                                            td
-                                                span.tooltip #{transaction.index}
-                                                    span.tooltiptext #{transaction.index}
-                                            td #{transaction.amount}
-                                            td 
-                                                span.tooltip #{formatters.hash(transaction.address)}
-                                                    span.tooltiptext #{transaction.address}
-                                        //- tr(id=`${transaction.id}`, style="display: none;")
-                                        //-     td(colspan=5)
-                                        //-         .content
-                                        //-             .columns
-                                        //-                 .column.is-two-thirds
-                                        //-                     .title.is-4 Inputs                                            
-                                        //-                     each input in transaction.data.inputs
-                                        //-                         p
-                                        //-                             span.icon
-                                        //-                                 i.fas.fa-arrow-right(data-fa-transform="rotate-45")
-                                        //-                             | Address
-                                        //-                             code.tooltip #{formatters.hash(input.address)}
-                                        //-                                 span.tooltiptext #{input.address}
-                                        //-                             | From transaction
-                                        //-                             code.tooltip #{formatters.hash(input.transaction)} : #{input.index}
-                                        //-                                 span.tooltiptext #{input.transaction}                                                    
-                                        //-                             | Amount
-                                        //-                             code #{formatters.amount(input.amount)}
-                                        //-                             | Signature
-                                        //-                             code #{formatters.hash(input.signature)}
-                                        //-                 .column
-                                        //-                     .title.is-4 Outputs                                            
-                                        //-                     each output in transaction.data.outputs
-                                        //-                         p
-                                        //-                             span.icon
-                                        //-                                 i.fas.fa-arrow-right(data-fa-transform="rotate-320")
-                                        //-                             | Address
-                                        //-                             code.tooltip #{formatters.hash(output.address)}
-                                        //-                                 span.tooltiptext #{output.address}                                                    
-                                        //-                             | Amount
-                                        //-                             code #{formatters.amount(output.amount)}
-    section.hero.is-primary
-        .hero-body
-            .container
-                .tile.is-parent
-                    article.tile.is-child.notification.is-danger
-                        p.title Transaction received
-                        p.subtitle List of transactions
-                        .content
-                            table.table
-                                thead
-                                    tr
-                                        th Transaction ID
-                                        th Index
-                                        th Amount
-                                        th From Address
-                                tfoot
-                                    tr
-                                        th Transaction ID
-                                        th Index
-                                        th Amount
-                                        th From Address
-                                tbody
-                                    each transaction in inputTransactions                    
-                                        tr(onClick=`toggle_visibility( '${transaction.transaction}' )`, style="cursor: pointer")
-                                            th
-                                                span.tooltip #{formatters.hash(transaction.transaction)}
-                                                    span.tooltiptext #{transaction.transaction}
-                                            td
-                                                span.tooltip #{transaction.index}
-                                                    span.tooltiptext #{transaction.index}
-                                            td #{transaction.amount}
-                                            td 
-                                                span.tooltip #{formatters.hash(transaction.address)}
-                                                    span.tooltiptext #{transaction.address}
-    section.hero.is-primary
-        .hero-body
-            .container
-                .tile.is-parent
-                    article.tile.is-child.notification.is-success
-                        .content
-                            .level
-                                .level-item 
-                                    .level-right
-                                        .content
-                                            p.title Smart Contract
-                                            p.subtitle Select Candidate
-                                .level-item
-                                    .level-left
-                                        .select
-                                            select
-                                                option Anh Dung
-                                                option Thanh Tuan
-                                                option Hung Cuong
-                                                option Ngoc Thanh
-                                        a.button.is-danger.is-focused Vote
+                .navbar-menu.is-active
+                    .navbar-brand
+                        a.navbar-item.title.is-2.has-text-white(href="/home", class=`${pageTitle=='Home' ? 'is-active' : ''}`) TTCDcoin
+                    .navbar-end
+                        a.navbar-item(href="/wallet/login", class=`${pageTitle=='Login'? 'is-active':''}`) Logout
+
+        block content
+            section.hero.is-medium.is-light.is-bold
+                .hero-body
+                    .container
+                        .tile.is-ancestor
+                            .tile.is-7.is-vertical.is-parent
+                                .tile.is-child.notification.is-primary
+                                    p.title.is-2.has-text-dark Wallet ID
+                                    code.tooltip.has-text-black(id='walletid') #{wallet.id}
+                                        span.tooltiptext #{wallet.id}
+                                .tile.is-child.notification.is-primary
+                                    p.title.is-2.has-text-dark Address
+                                    code.tooltip.has-text-black(id='address') #{wallet.addresses}
+                                        span.tooltiptext #{wallet.addresses}
+                            .tile.is-parent
+                                .tile.is-child.notification.is-primary.has-text-centered
+                                    .tile.is-ancestor
+                                        .tile.is-20.is-vertical.is-parent
+                                            .tile.is-child.notification.is-primary
+                                                .column.has-text-centered
+                                                    p.title.is-2.has-text-dark Account Balance
+                                            .tile.is-child.notification.is-grey
+                                                .column.has-text-centered
+                                                    h1.title.is-1.has-text-danger #{balance}
+            section.hero.is-light.is-bold
+                .hero-body
+                    .container
+                        .tile.is-parent
+                            article.tile.is-child.notification.is-primary
+                                .content
+                                    p.title.has-text-dark Transfers
+                                    .content
+                                        form(method='POST' action='/submit-transaction')
+                                            .field
+                                                label.label Wallet ID
+                                                .control
+                                                    input.input(name='walletid' type='text' placeholder='eg b826513cb97313e244921d277b470f5060a10d17bbf6dd37fca9341bd511a348')
+                                            .field
+                                                label.label Receiving address
+                                                .control
+                                                    input.input(name='toAddress' type='text' placeholder='eg b826513cb97313e244921d277b470f5060a10d17bbf6dd37fca9341bd511a348')
+                                            .field
+                                                label.label Password
+                                                .control
+                                                    input.input(name='pass' type='password' placeholder='eg nam 1 2 3 4')
+                                            .field
+                                                label.label Amount
+                                                .control
+                                                    input.input(name='amount' type='text' placeholder='eg 50000000')
+                                            input.button.is-warning(type="submit")
+            section.hero.is-light
+                .hero-body
+                    .container
+                        .tile.is-parent
+                            article.tile.is-child.notification.is-danger
+                                p.title.has-text-white Transaction sent
+                                p.subtitle.has-text-white List of transactions
+                                .content
+                                    table.table
+                                        thead
+                                            tr
+                                                th Transaction ID
+                                                th Index
+                                                th Amount
+                                                th To Address
+                                        tfoot
+                                            tr
+                                                th Transaction ID
+                                                th Index
+                                                th Amount
+                                                th To Address
+                                        tbody
+                                            each transaction in outputTransactions                    
+                                                tr(onClick=`toggle_visibility( '${transaction.transaction}' )`, style="cursor: pointer")
+                                                    th
+                                                        span.tooltip #{formatters.hash(transaction.transaction)}
+                                                            span.tooltiptext #{transaction.transaction}
+                                                    td
+                                                        span.tooltip #{transaction.index}
+                                                            span.tooltiptext #{transaction.index}
+                                                    td #{transaction.amount}
+                                                    td 
+                                                        span.tooltip #{formatters.hash(transaction.address)}
+                                                            span.tooltiptext #{transaction.address}
+                                                //- tr(id=`${transaction.id}`, style="display: none;")
+                                                //-     td(colspan=5)
+                                                //-         .content
+                                                //-             .columns
+                                                //-                 .column.is-two-thirds
+                                                //-                     .title.is-4 Inputs                                            
+                                                //-                     each input in transaction.data.inputs
+                                                //-                         p
+                                                //-                             span.icon
+                                                //-                                 i.fas.fa-arrow-right(data-fa-transform="rotate-45")
+                                                //-                             | Address
+                                                //-                             code.tooltip #{formatters.hash(input.address)}
+                                                //-                                 span.tooltiptext #{input.address}
+                                                //-                             | From transaction
+                                                //-                             code.tooltip #{formatters.hash(input.transaction)} : #{input.index}
+                                                //-                                 span.tooltiptext #{input.transaction}                                                    
+                                                //-                             | Amount
+                                                //-                             code #{formatters.amount(input.amount)}
+                                                //-                             | Signature
+                                                //-                             code #{formatters.hash(input.signature)}
+                                                //-                 .column
+                                                //-                     .title.is-4 Outputs                                            
+                                                //-                     each output in transaction.data.outputs
+                                                //-                         p
+                                                //-                             span.icon
+                                                //-                                 i.fas.fa-arrow-right(data-fa-transform="rotate-320")
+                                                //-                             | Address
+                                                //-                             code.tooltip #{formatters.hash(output.address)}
+                                                //-                                 span.tooltiptext #{output.address}                                                    
+                                                //-                             | Amount
+                                                //-                             code #{formatters.amount(output.amount)}
+            section.hero.is-light
+                .hero-body
+                    .container
+                        .tile.is-parent
+                            article.tile.is-child.notification.is-danger
+                                p.title.has-text-white Transaction received
+                                p.subtitle.has-text-white List of transactions
+                                .content
+                                    table.table
+                                        thead
+                                            tr
+                                                th Transaction ID
+                                                th Index
+                                                th Amount
+                                                th From Address
+                                        tfoot
+                                            tr
+                                                th Transaction ID
+                                                th Index
+                                                th Amount
+                                                th From Address
+                                        tbody
+                                            each transaction in inputTransactions                    
+                                                tr(onClick=`toggle_visibility( '${transaction.transaction}' )`, style="cursor: pointer")
+                                                    th
+                                                        span.tooltip #{formatters.hash(transaction.transaction)}
+                                                            span.tooltiptext #{transaction.transaction}
+                                                    td
+                                                        span.tooltip #{transaction.index}
+                                                            span.tooltiptext #{transaction.index}
+                                                    td #{transaction.amount}
+                                                    td 
+                                                        span.tooltip #{formatters.hash(transaction.address)}
+                                                            span.tooltiptext #{transaction.address}
+            section.hero.is-light
+                .hero-body
+                    .container
+                        .tile.is-parent
+                            article.tile.is-child.notification.is-success
+                                .content
+                                    .level
+                                        .level-item 
+                                            .level-right
+                                                .content
+                                                    p.title.has-text-white Smart Contract
+                                                    p.subtitle.has-text-white Select Candidate
+                                        .level-item
+                                            .level-left
+                                                .select
+                                                    select
+                                                        option Anh Dung
+                                                        option Thanh Tuan
+                                                        option Hung Cuong
+                                                        option Ngoc Thanh
+                                                a.button.is-danger.is-focused Vote

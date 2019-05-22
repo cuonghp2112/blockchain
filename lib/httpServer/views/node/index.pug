@@ -1,0 +1,37 @@
+extends ../layout.pug
+
+block content
+    section.hero.is-light
+            .hero-body
+                .container
+                    .tile.is-parent
+                        article.tile.is-child.notification.is-danger
+                            p.title.has-text-white Peers
+                            p.subtitle.has-text-white Total peers : #{totalPeers}
+                            .content
+                                table.table
+                                    thead
+                                        tr
+                                            th URL
+                                    tfoot
+                                        tr
+                                            th URL
+                                    tbody
+                                        each node in nodes                  
+                                            tr(onClick=`toggle_visibility( '${node.index}' )`, style="cursor: pointer")
+                                                td #{node.url}
+
+    section.hero.is-light.is-bold
+        .hero-body
+            .container
+                .tile.is-parent
+                    article.tile.is-child.notification.is-primary
+                        .content
+                            p.title.has-text-dark Connect 
+                            .content
+                                form(method='POST' action='/node/peers')
+                                    .field
+                                        label.label URL
+                                        .control
+                                            input.input(name='url' type='text' placeholder='eg http://[host]:[port]')
+                                    input.button.is-warning(type="submit" value='Connect')
