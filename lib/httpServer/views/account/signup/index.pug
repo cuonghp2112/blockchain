@@ -38,23 +38,20 @@ html(lang="en").has-navbar-fixed-top
                 .navbar-menu.is-active
                     .navbar-brand
                         a.navbar-item.title.is-2.has-text-white(href="/home", class=`${pageTitle=='Home' ? 'is-active' : ''}`) TTCDcoin
-                    //- .navbar-start                        
-                    //-     a.navbar-item(href="/blockchain", class=`${pageTitle=='Blockchain' ? 'is-active' : ''}`) Blockchain
-                    //-     a.navbar-item(href="/blockchain/transactions", class=`${pageTitle=='Unconfirmed Transactions' ? 'is-active' : ''}`) Unconfirmed Transactions
                     .navbar-end
-                        a.navbar-item(href="/wallet/signup", class=`${pageTitle=='Sign Up'? 'is-active':''}`) Sign Up
+                        a.navbar-item(href="/wallet/login", class=`${pageTitle=='Login'? 'is-active':''}`) Login
 
         block content
             section.hero.is-fullheight.is-primary.is-bold
                 .hero-body
                     .container
                         center
-                            p.title.is-1(style='color:black') Login
-                        form(action="/wallet" method="POST")
+                            p.title.is-1(style='color:black') Sign Up
+                        form(action="/wallets" method="POST")
                             .field
-                                label.label Wallet ID
+                                label.label Name
                                     p.control.has-icons-left.has-icons-right
-                                        input.input(type='id' placeholder='Wallet ID' name='id')
+                                        input.input(type='name' placeholder='User name' name='name')
                                         span.icon.is-small.is-left
                                             i.fas.fa-envelope
                                         span.icon.is-small.is-right
@@ -62,7 +59,7 @@ html(lang="en").has-navbar-fixed-top
                             .field
                                 label.label Password
                                     p.control.has-icons-left
-                                        input.input(type='password' placeholder='Password' name='password')
+                                        input.input(type='password' placeholder='eg: Dung 1 2 3 4' name='password')
                                         span.icon.is-small.is-left
                                             i.fas.fa-lock
                             input.button.is-warning(type="submit")

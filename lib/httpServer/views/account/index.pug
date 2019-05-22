@@ -33,15 +33,17 @@ html(lang="en").has-navbar-fixed-top
                 visibility: visible;
             }
     body
-        nav.navbar.is-fixed-top.is-dark
-            .container
-                .navbar-menu.is-active
-                    .navbar-brand
-                        a.navbar-item.title.is-2.has-text-white(href="/home", class=`${pageTitle=='Home' ? 'is-active' : ''}`) TTCDcoin
-                    .navbar-end
-                        a.navbar-item(href="/wallet/login", class=`${pageTitle=='Login'? 'is-active':''}`) Logout
-
         block content
+            nav.navbar.is-fixed-top.is-dark
+                .container
+                    .navbar-menu.is-active
+                        .navbar-brand
+                            a.navbar-item.title.is-2.has-text-white(href="/home", class=`${pageTitle=='Home' ? 'is-active' : ''}`) TTCDcoin
+                            a.navbar-item(href='/wallet/contract',class=`${pageTitle=='Contract'? 'is-active':''}`) Smart ConTract
+                        .navbar-end
+                            a.navbar-item #{wallet.name}
+                            a.navbar-item(href="/wallet/login", class=`${pageTitle=='Login'? 'is-active':''}`) Logout
+
             section.hero.is-medium.is-light.is-bold
                 .hero-body
                     .container
@@ -190,24 +192,4 @@ html(lang="en").has-navbar-fixed-top
                                                     td 
                                                         span.tooltip #{formatters.hash(transaction.address)}
                                                             span.tooltiptext #{transaction.address}
-            section.hero.is-light
-                .hero-body
-                    .container
-                        .tile.is-parent
-                            article.tile.is-child.notification.is-success
-                                .content
-                                    .level
-                                        .level-item 
-                                            .level-right
-                                                .content
-                                                    p.title.has-text-white Smart Contract
-                                                    p.subtitle.has-text-white Select Candidate
-                                        .level-item
-                                            .level-left
-                                                .select
-                                                    select
-                                                        option Anh Dung
-                                                        option Thanh Tuan
-                                                        option Hung Cuong
-                                                        option Ngoc Thanh
-                                                a.button.is-danger.is-focused Vote
+
